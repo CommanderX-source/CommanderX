@@ -1,0 +1,744 @@
+-- Create the main ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CommanderXGUI"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
+
+-- Create the main frame (positioned at right corner)
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 350, 0, 650)
+mainFrame.Position = UDim2.new(1, -370, 0.5, -325)
+mainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+mainFrame.BackgroundTransparency = 0.1
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+-- Add shadow effect
+local shadow = Instance.new("ImageLabel")
+shadow.Name = "Shadow"
+shadow.Size = UDim2.new(1, 20, 1, 20)
+shadow.Position = UDim2.new(0, -10, 0, -10)
+shadow.BackgroundTransparency = 1
+shadow.Image = "rbxassetid://6014261993"
+shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+shadow.ImageTransparency = 0.7
+shadow.Parent = mainFrame
+
+-- Main frame corner rounding
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 8)
+uiCorner.Parent = mainFrame
+
+-- Add hacker background image
+local backgroundImage = Instance.new("ImageLabel")
+backgroundImage.Name = "BackgroundImage"
+backgroundImage.Size = UDim2.new(1, 0, 1, 0)
+backgroundImage.BackgroundTransparency = 1
+backgroundImage.Image = "rbxassetid://1694038770"
+backgroundImage.ImageColor3 = Color3.fromRGB(0, 255, 0)
+backgroundImage.ImageTransparency = 0.85
+backgroundImage.ScaleType = Enum.ScaleType.Crop
+backgroundImage.Parent = mainFrame
+
+-- Add overlay for better readability
+local overlay = Instance.new("Frame")
+overlay.Name = "Overlay"
+overlay.Size = UDim2.new(1, 0, 1, 0)
+overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+overlay.BackgroundTransparency = 0.3
+overlay.BorderSizePixel = 0
+overlay.Parent = mainFrame
+
+-- Add binary rain effect overlay
+local binaryOverlay = Instance.new("ImageLabel")
+binaryOverlay.Name = "BinaryOverlay"
+binaryOverlay.Size = UDim2.new(1, 0, 1, 0)
+binaryOverlay.BackgroundTransparency = 1
+binaryOverlay.Image = "rbxassetid://155409450"
+binaryOverlay.ImageColor3 = Color3.fromRGB(0, 255, 100)
+binaryOverlay.ImageTransparency = 0.9
+binaryOverlay.ScaleType = Enum.ScaleType.Tile
+binaryOverlay.TileSize = UDim2.new(0, 100, 0, 100)
+binaryOverlay.Parent = mainFrame
+
+-- Add glowing circuit lines (top)
+local circuitTop = Instance.new("Frame")
+circuitTop.Name = "CircuitTop"
+circuitTop.Size = UDim2.new(1, 0, 0, 2)
+circuitTop.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+circuitTop.BorderSizePixel = 0
+circuitTop.Parent = mainFrame
+
+local circuitGlowTop = Instance.new("UIStroke")
+circuitGlowTop.Thickness = 2
+circuitGlowTop.Color = Color3.fromRGB(0, 255, 0)
+circuitGlowTop.Transparency = 0.7
+circuitGlowTop.Parent = circuitTop
+
+-- Add glowing circuit lines (bottom)
+local circuitBottom = Instance.new("Frame")
+circuitBottom.Name = "CircuitBottom"
+circuitBottom.Size = UDim2.new(1, 0, 0, 2)
+circuitBottom.Position = UDim2.new(0, 0, 1, -2)
+circuitBottom.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+circuitBottom.BorderSizePixel = 0
+circuitBottom.Parent = mainFrame
+
+local circuitGlowBottom = Instance.new("UIStroke")
+circuitGlowBottom.Thickness = 2
+circuitGlowBottom.Color = Color3.fromRGB(0, 255, 0)
+circuitGlowBottom.Transparency = 0.7
+circuitGlowBottom.Parent = circuitBottom
+
+-- Top bar
+local topBar = Instance.new("Frame")
+topBar.Name = "TopBar"
+topBar.Size = UDim2.new(1, 0, 0, 50)
+topBar.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+topBar.BackgroundTransparency = 0.2
+topBar.BorderSizePixel = 0
+topBar.Parent = mainFrame
+
+local topBarCorner = Instance.new("UICorner")
+topBarCorner.CornerRadius = UDim.new(0, 8)
+topBarCorner.Parent = topBar
+
+-- Title with hacker font effect
+local title = Instance.new("TextLabel")
+title.Name = "Title"
+title.Size = UDim2.new(1, -100, 1, 0)
+title.Position = UDim2.new(0, 15, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "> COMMANDER X_"
+title.TextColor3 = Color3.fromRGB(0, 255, 0)
+title.TextScaled = true
+title.Font = Enum.Font.Code
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = topBar
+
+-- Add typing cursor effect
+local cursor = Instance.new("Frame")
+cursor.Name = "Cursor"
+cursor.Size = UDim2.new(0, 2, 0, 20)
+cursor.Position = UDim2.new(1, -35, 0.5, -10)
+cursor.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+cursor.BorderSizePixel = 0
+cursor.Parent = title
+
+-- Animate cursor
+spawn(function()
+    while true do
+        cursor.Visible = not cursor.Visible
+        wait(0.5)
+    end
+end)
+
+-- Close button
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.Size = UDim2.new(0, 40, 0, 40)
+closeButton.Position = UDim2.new(1, -45, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+closeButton.Text = "✕"
+closeButton.TextColor3 = Color3.fromRGB(255, 70, 70)
+closeButton.TextScaled = true
+closeButton.Font = Enum.Font.GothamBold
+closeButton.Parent = topBar
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 6)
+closeCorner.Parent = closeButton
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- Page buttons container
+local pageButtons = Instance.new("Frame")
+pageButtons.Name = "PageButtons"
+pageButtons.Size = UDim2.new(1, 0, 0, 40)
+pageButtons.Position = UDim2.new(0, 0, 0, 50)
+pageButtons.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+pageButtons.BackgroundTransparency = 0.2
+pageButtons.BorderSizePixel = 0
+pageButtons.Parent = mainFrame
+
+-- Page buttons layout
+local pageLayout = Instance.new("UIListLayout")
+pageLayout.FillDirection = Enum.FillDirection.Horizontal
+pageLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+pageLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+pageLayout.Padding = UDim.new(0, 5)
+pageLayout.Parent = pageButtons
+
+-- Pages container
+local pagesContainer = Instance.new("Frame")
+pagesContainer.Name = "PagesContainer"
+pagesContainer.Size = UDim2.new(1, -20, 1, -120)
+pagesContainer.Position = UDim2.new(0, 10, 0, 100)
+pagesContainer.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+pagesContainer.BackgroundTransparency = 0.3
+pagesContainer.BorderSizePixel = 0
+pagesContainer.Parent = mainFrame
+
+local containerCorner = Instance.new("UICorner")
+containerCorner.CornerRadius = UDim.new(0, 6)
+containerCorner.Parent = pagesContainer
+
+-- Create pages
+local pages = {}
+local pageNames = {"MAIN", "SETTINGS", "HELP", "ABOUT"} -- Added HELP page
+
+-- Function to create a page
+local function createPage(name)
+    local page = Instance.new("ScrollingFrame")
+    page.Name = name .. "Page"
+    page.Size = UDim2.new(1, 0, 1, 0)
+    page.BackgroundTransparency = 1
+    page.BorderSizePixel = 0
+    page.ScrollBarThickness = 4
+    page.ScrollBarImageColor3 = Color3.fromRGB(0, 255, 0)
+    page.Visible = false
+    page.Parent = pagesContainer
+    
+    -- Page content
+    local contentLayout = Instance.new("UIListLayout")
+    contentLayout.Padding = UDim.new(0, 10)
+    contentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    contentLayout.Parent = page
+    
+    local padding = Instance.new("UIPadding")
+    padding.PaddingTop = UDim.new(0, 10)
+    padding.PaddingBottom = UDim.new(0, 10)
+    padding.PaddingLeft = UDim.new(0, 10)
+    padding.PaddingRight = UDim.new(0, 10)
+    padding.Parent = page
+    
+    return page
+end
+
+-- Create specific page contents
+local mainPage = createPage("Main")
+local settingsPage = createPage("Settings")
+local helpPage = createPage("Help")  -- New HELP page
+local aboutPage = createPage("About")
+
+pages["MAIN"] = mainPage
+pages["SETTINGS"] = settingsPage
+pages["HELP"] = helpPage    -- Add to pages table
+pages["ABOUT"] = aboutPage
+
+-- AUTO TRAIN Feature (for MAIN page)
+local autoTrainEnabled = false
+local autoTrainConnection = nil
+
+-- AUTO COMPETITION Feature (for MAIN page)
+local autoCompetitionEnabled = false
+local autoCompetitionConnection = nil
+
+-- MAIN page content
+local mainTitle = Instance.new("TextLabel")
+mainTitle.Size = UDim2.new(1, 0, 0, 40)
+mainTitle.BackgroundTransparency = 1
+mainTitle.Text = "> AUTO SCRIPTS"
+mainTitle.TextColor3 = Color3.fromRGB(0, 255, 0)
+mainTitle.TextScaled = true
+mainTitle.Font = Enum.Font.Code
+mainTitle.Parent = mainPage
+
+-- AUTO TRAIN Section
+local autoTrainFrame = Instance.new("Frame")
+autoTrainFrame.Size = UDim2.new(1, 0, 0, 140)
+autoTrainFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+autoTrainFrame.BackgroundTransparency = 0.3
+autoTrainFrame.BorderSizePixel = 0
+autoTrainFrame.Parent = mainPage
+
+local autoTrainCorner = Instance.new("UICorner")
+autoTrainCorner.CornerRadius = UDim.new(0, 8)
+autoTrainCorner.Parent = autoTrainFrame
+
+local autoTrainHeader = Instance.new("TextLabel")
+autoTrainHeader.Size = UDim2.new(1, -20, 0, 25)
+autoTrainHeader.Position = UDim2.new(0, 10, 0, 5)
+autoTrainHeader.BackgroundTransparency = 1
+autoTrainHeader.Text = "> AUTO TRAIN.exe"
+autoTrainHeader.TextColor3 = Color3.fromRGB(0, 255, 200)
+autoTrainHeader.TextScaled = true
+autoTrainHeader.Font = Enum.Font.Code
+autoTrainHeader.TextXAlignment = Enum.TextXAlignment.Left
+autoTrainHeader.Parent = autoTrainFrame
+
+local autoTrainDesc = Instance.new("TextLabel")
+autoTrainDesc.Size = UDim2.new(1, -20, 0, 30)
+autoTrainDesc.Position = UDim2.new(0, 10, 0, 30)
+autoTrainDesc.BackgroundTransparency = 1
+autoTrainDesc.Text = "> Training protocol"
+autoTrainDesc.TextColor3 = Color3.fromRGB(150, 255, 150)
+autoTrainDesc.TextScaled = true
+autoTrainDesc.Font = Enum.Font.Code
+autoTrainDesc.TextXAlignment = Enum.TextXAlignment.Left
+autoTrainDesc.Parent = autoTrainFrame
+
+local autoTrainStatus = Instance.new("TextLabel")
+autoTrainStatus.Size = UDim2.new(1, -20, 0, 25)
+autoTrainStatus.Position = UDim2.new(0, 10, 0, 60)
+autoTrainStatus.BackgroundTransparency = 1
+autoTrainStatus.Text = "> Status: OFFLINE"
+autoTrainStatus.TextColor3 = Color3.fromRGB(255, 100, 100)
+autoTrainStatus.TextScaled = true
+autoTrainStatus.Font = Enum.Font.Code
+autoTrainStatus.TextXAlignment = Enum.TextXAlignment.Left
+autoTrainStatus.Parent = autoTrainFrame
+
+local autoTrainButton = Instance.new("TextButton")
+autoTrainButton.Size = UDim2.new(1, -20, 0, 35)
+autoTrainButton.Position = UDim2.new(0, 10, 0, 90)
+autoTrainButton.BackgroundColor3 = Color3.fromRGB(20, 30, 20)
+autoTrainButton.Text = "> EXECUTE"
+autoTrainButton.TextColor3 = Color3.fromRGB(0, 255, 0)
+autoTrainButton.TextScaled = true
+autoTrainButton.Font = Enum.Font.Code
+autoTrainButton.Parent = autoTrainFrame
+
+local autoTrainCorner2 = Instance.new("UICorner")
+autoTrainCorner2.CornerRadius = UDim.new(0, 6)
+autoTrainCorner2.Parent = autoTrainButton
+
+-- Auto Train functionality
+autoTrainButton.MouseButton1Click:Connect(function()
+    autoTrainEnabled = not autoTrainEnabled
+    
+    if autoTrainEnabled then
+        autoTrainStatus.Text = "> Status: ONLINE"
+        autoTrainStatus.TextColor3 = Color3.fromRGB(0, 255, 0)
+        autoTrainButton.Text = "> TERMINATE"
+        autoTrainButton.BackgroundColor3 = Color3.fromRGB(40, 20, 20)
+        
+        -- Start the auto train script
+        local event = game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("Click")
+        
+        autoTrainConnection = game:GetService("RunService").Heartbeat:Connect(function()
+            if autoTrainEnabled then
+                event:FireServer()
+            end
+        end)
+    else
+        autoTrainStatus.Text = "> Status: OFFLINE"
+        autoTrainStatus.TextColor3 = Color3.fromRGB(255, 100, 100)
+        autoTrainButton.Text = "> EXECUTE"
+        autoTrainButton.BackgroundColor3 = Color3.fromRGB(20, 30, 20)
+        
+        if autoTrainConnection then
+            autoTrainConnection:Disconnect()
+            autoTrainConnection = nil
+        end
+    end
+end)
+
+-- AUTO COMPETITION Section
+local autoCompFrame = Instance.new("Frame")
+autoCompFrame.Size = UDim2.new(1, 0, 0, 140)
+autoCompFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+autoCompFrame.BackgroundTransparency = 0.3
+autoCompFrame.BorderSizePixel = 0
+autoCompFrame.Parent = mainPage
+
+local autoCompCorner = Instance.new("UICorner")
+autoCompCorner.CornerRadius = UDim.new(0, 8)
+autoCompCorner.Parent = autoCompFrame
+
+local autoCompHeader = Instance.new("TextLabel")
+autoCompHeader.Size = UDim2.new(1, -20, 0, 25)
+autoCompHeader.Position = UDim2.new(0, 10, 0, 5)
+autoCompHeader.BackgroundTransparency = 1
+autoCompHeader.Text = "> AUTO COMPETITION.exe"
+autoCompHeader.TextColor3 = Color3.fromRGB(255, 200, 0)
+autoCompHeader.TextScaled = true
+autoCompHeader.Font = Enum.Font.Code
+autoCompHeader.TextXAlignment = Enum.TextXAlignment.Left
+autoCompHeader.Parent = autoCompFrame
+
+local autoCompDesc = Instance.new("TextLabel")
+autoCompDesc.Size = UDim2.new(1, -20, 0, 30)
+autoCompDesc.Position = UDim2.new(0, 10, 0, 30)
+autoCompDesc.BackgroundTransparency = 1
+autoCompDesc.Text = "> Competition mode"
+autoCompDesc.TextColor3 = Color3.fromRGB(255, 200, 150)
+autoCompDesc.TextScaled = true
+autoCompDesc.Font = Enum.Font.Code
+autoCompDesc.TextXAlignment = Enum.TextXAlignment.Left
+autoCompDesc.Parent = autoCompFrame
+
+local autoCompStatus = Instance.new("TextLabel")
+autoCompStatus.Size = UDim2.new(1, -20, 0, 25)
+autoCompStatus.Position = UDim2.new(0, 10, 0, 60)
+autoCompStatus.BackgroundTransparency = 1
+autoCompStatus.Text = "> Status: OFFLINE"
+autoCompStatus.TextColor3 = Color3.fromRGB(255, 100, 100)
+autoCompStatus.TextScaled = true
+autoCompStatus.Font = Enum.Font.Code
+autoCompStatus.TextXAlignment = Enum.TextXAlignment.Left
+autoCompStatus.Parent = autoCompFrame
+
+local autoCompButton = Instance.new("TextButton")
+autoCompButton.Size = UDim2.new(1, -20, 0, 35)
+autoCompButton.Position = UDim2.new(0, 10, 0, 90)
+autoCompButton.BackgroundColor3 = Color3.fromRGB(30, 20, 20)
+autoCompButton.Text = "> EXECUTE"
+autoCompButton.TextColor3 = Color3.fromRGB(255, 200, 0)
+autoCompButton.TextScaled = true
+autoCompButton.Font = Enum.Font.Code
+autoCompButton.Parent = autoCompFrame
+
+local autoCompCorner2 = Instance.new("UICorner")
+autoCompCorner2.CornerRadius = UDim.new(0, 6)
+autoCompCorner2.Parent = autoCompButton
+
+-- Auto Competition functionality
+autoCompButton.MouseButton1Click:Connect(function()
+    autoCompetitionEnabled = not autoCompetitionEnabled
+    
+    if autoCompetitionEnabled then
+        autoCompStatus.Text = "> Status: ONLINE"
+        autoCompStatus.TextColor3 = Color3.fromRGB(255, 200, 0)
+        autoCompButton.Text = "> TERMINATE"
+        autoCompButton.BackgroundColor3 = Color3.fromRGB(40, 20, 20)
+        
+        -- Start the auto competition script
+        local args = {
+            "\229\184\184\232\167\132"
+        }
+        local event = game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("CompititionClick")
+        
+        autoCompetitionConnection = game:GetService("RunService").Heartbeat:Connect(function()
+            if autoCompetitionEnabled then
+                event:FireServer(unpack(args))
+            end
+        end)
+    else
+        autoCompStatus.Text = "> Status: OFFLINE"
+        autoCompStatus.TextColor3 = Color3.fromRGB(255, 100, 100)
+        autoCompButton.Text = "> EXECUTE"
+        autoCompButton.BackgroundColor3 = Color3.fromRGB(30, 20, 20)
+        
+        if autoCompetitionConnection then
+            autoCompetitionConnection:Disconnect()
+            autoCompetitionConnection = nil
+        end
+    end
+end)
+
+-- Additional MAIN page description
+local mainDesc = Instance.new("TextLabel")
+mainDesc.Size = UDim2.new(1, 0, 0, 40)
+mainDesc.BackgroundTransparency = 1
+mainDesc.Text = "> Select script to execute\n> Check HELP for info"
+mainDesc.TextColor3 = Color3.fromRGB(100, 200, 100)
+mainDesc.TextScaled = true
+mainDesc.Font = Enum.Font.Code
+mainDesc.Parent = mainPage
+
+-- Settings page content
+local settingsTitle = Instance.new("TextLabel")
+settingsTitle.Size = UDim2.new(1, 0, 0, 40)
+settingsTitle.BackgroundTransparency = 1
+settingsTitle.Text = "> CONFIGURATION"
+settingsTitle.TextColor3 = Color3.fromRGB(0, 255, 0)
+settingsTitle.TextScaled = true
+settingsTitle.Font = Enum.Font.Code
+settingsTitle.Parent = settingsPage
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(1, 0, 0, 50)
+toggleButton.BackgroundColor3 = Color3.fromRGB(20, 30, 20)
+toggleButton.Text = "> TOGGLE SECURITY"
+toggleButton.TextColor3 = Color3.fromRGB(0, 255, 0)
+toggleButton.TextScaled = true
+toggleButton.Font = Enum.Font.Code
+toggleButton.Parent = settingsPage
+
+local toggleCorner = Instance.new("UICorner")
+toggleCorner.CornerRadius = UDim.new(0, 6)
+toggleCorner.Parent = toggleButton
+
+-- HELP page content
+local helpTitle = Instance.new("TextLabel")
+helpTitle.Size = UDim2.new(1, 0, 0, 40)
+helpTitle.BackgroundTransparency = 1
+helpTitle.Text = "> HELP & INFO"
+helpTitle.TextColor3 = Color3.fromRGB(0, 255, 255) -- Cyan color for help
+helpTitle.TextScaled = true
+helpTitle.Font = Enum.Font.Code
+helpTitle.Parent = helpPage
+
+-- Help message frame for Auto Train
+local helpTrainFrame = Instance.new("Frame")
+helpTrainFrame.Size = UDim2.new(1, 0, 0, 80)
+helpTrainFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+helpTrainFrame.BackgroundTransparency = 0.3
+helpTrainFrame.BorderSizePixel = 0
+helpTrainFrame.Parent = helpPage
+
+local helpTrainCorner = Instance.new("UICorner")
+helpTrainCorner.CornerRadius = UDim.new(0, 8)
+helpTrainCorner.Parent = helpTrainFrame
+
+local helpTrainIcon = Instance.new("TextLabel")
+helpTrainIcon.Size = UDim2.new(0, 30, 1, 0)
+helpTrainIcon.Position = UDim2.new(0, 10, 0, 0)
+helpTrainIcon.BackgroundTransparency = 1
+helpTrainIcon.Text = "🚂"
+helpTrainIcon.TextColor3 = Color3.fromRGB(0, 255, 200)
+helpTrainIcon.TextScaled = true
+helpTrainIcon.Font = Enum.Font.Code
+helpTrainIcon.Parent = helpTrainFrame
+
+local helpTrainText = Instance.new("TextLabel")
+helpTrainText.Size = UDim2.new(1, -50, 1, 0)
+helpTrainText.Position = UDim2.new(0, 45, 0, 0)
+helpTrainText.BackgroundTransparency = 1
+helpTrainText.Text = "> For AUTO TRAIN you must\n> use machines"
+helpTrainText.TextColor3 = Color3.fromRGB(0, 255, 200)
+helpTrainText.TextScaled = true
+helpTrainText.Font = Enum.Font.Code
+helpTrainText.TextXAlignment = Enum.TextXAlignment.Left
+helpTrainText.Parent = helpTrainFrame
+
+-- Help message frame for Auto Competition
+local helpCompFrame = Instance.new("Frame")
+helpCompFrame.Size = UDim2.new(1, 0, 0, 80)
+helpCompFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+helpCompFrame.BackgroundTransparency = 0.3
+helpCompFrame.BorderSizePixel = 0
+helpCompFrame.Parent = helpPage
+
+local helpCompCorner = Instance.new("UICorner")
+helpCompCorner.CornerRadius = UDim.new(0, 8)
+helpCompCorner.Parent = helpCompFrame
+
+local helpCompIcon = Instance.new("TextLabel")
+helpCompIcon.Size = UDim2.new(0, 30, 1, 0)
+helpCompIcon.Position = UDim2.new(0, 10, 0, 0)
+helpCompIcon.BackgroundTransparency = 1
+helpCompIcon.Text = "🏆"
+helpCompIcon.TextColor3 = Color3.fromRGB(255, 200, 0)
+helpCompIcon.TextScaled = true
+helpCompIcon.Font = Enum.Font.Code
+helpCompIcon.Parent = helpCompFrame
+
+local helpCompText = Instance.new("TextLabel")
+helpCompText.Size = UDim2.new(1, -50, 1, 0)
+helpCompText.Position = UDim2.new(0, 45, 0, 0)
+helpCompText.BackgroundTransparency = 1
+helpCompText.Text = "> For AUTO COMPETITION\n> you must be in competition"
+helpCompText.TextColor3 = Color3.fromRGB(255, 200, 0)
+helpCompText.TextScaled = true
+helpCompText.Font = Enum.Font.Code
+helpCompText.TextXAlignment = Enum.TextXAlignment.Left
+helpCompText.Parent = helpCompFrame
+
+-- Additional help tips
+local helpTipFrame = Instance.new("Frame")
+helpTipFrame.Size = UDim2.new(1, 0, 0, 100)
+helpTipFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+helpTipFrame.BackgroundTransparency = 0.3
+helpTipFrame.BorderSizePixel = 0
+helpTipFrame.Parent = helpPage
+
+local helpTipCorner = Instance.new("UICorner")
+helpTipCorner.CornerRadius = UDim.new(0, 8)
+helpTipCorner.Parent = helpTipFrame
+
+local helpTipIcon = Instance.new("TextLabel")
+helpTipIcon.Size = UDim2.new(0, 30, 1, 0)
+helpTipIcon.Position = UDim2.new(0, 10, 0, 0)
+helpTipIcon.BackgroundTransparency = 1
+helpTipIcon.Text = "💡"
+helpTipIcon.TextColor3 = Color3.fromRGB(255, 255, 0)
+helpTipIcon.TextScaled = true
+helpTipIcon.Font = Enum.Font.Code
+helpTipIcon.Parent = helpTipFrame
+
+local helpTipText = Instance.new("TextLabel")
+helpTipText.Size = UDim2.new(1, -50, 1, 0)
+helpTipText.Position = UDim2.new(0, 45, 0, 0)
+helpTipText.BackgroundTransparency = 1
+helpTipText.Text = "> TIPS:\n> • Use TERMINATE to stop\n> • Each script runs independently\n> • Check status indicators"
+helpTipText.TextColor3 = Color3.fromRGB(255, 255, 100)
+helpTipText.TextScaled = true
+helpTipText.Font = Enum.Font.Code
+helpTipText.TextXAlignment = Enum.TextXAlignment.Left
+helpTipText.Parent = helpTipFrame
+
+-- About page content
+local aboutTitle = Instance.new("TextLabel")
+aboutTitle.Size = UDim2.new(1, 0, 0, 40)
+aboutTitle.BackgroundTransparency = 1
+aboutTitle.Text = "> SYSTEM INFO"
+aboutTitle.TextColor3 = Color3.fromRGB(0, 255, 0)
+aboutTitle.TextScaled = true
+aboutTitle.Font = Enum.Font.Code
+aboutTitle.Parent = aboutPage
+
+-- Create the signature text with hacker style
+local signature = Instance.new("TextLabel")
+signature.Name = "Signature"
+signature.Size = UDim2.new(1, -20, 0, 80)
+signature.Position = UDim2.new(0, 10, 0, 10)
+signature.BackgroundTransparency = 0.9
+signature.BackgroundColor3 = Color3.fromRGB(0, 20, 0)
+signature.Text = "> BY COMMANDERX"
+signature.TextColor3 = Color3.fromRGB(0, 255, 0)
+signature.TextScaled = true
+signature.Font = Enum.Font.Code
+signature.RichText = true
+signature.Parent = aboutPage
+
+local signatureCorner = Instance.new("UICorner")
+signatureCorner.CornerRadius = UDim.new(0, 8)
+signatureCorner.Parent = signature
+
+-- Add glow effect to signature
+local signatureGlow = Instance.new("UIStroke")
+signatureGlow.Thickness = 2
+signatureGlow.Color = Color3.fromRGB(0, 255, 0)
+signatureGlow.Transparency = 0.5
+signatureGlow.Parent = signature
+
+local aboutDesc = Instance.new("TextLabel")
+aboutDesc.Size = UDim2.new(1, 0, 0, 100)
+aboutDesc.BackgroundTransparency = 1
+aboutDesc.Text = "> HACKER TERMINAL v1.0\n> Encrypted with ❤️\n> Access granted"
+aboutDesc.TextColor3 = Color3.fromRGB(100, 200, 100)
+aboutDesc.TextScaled = true
+aboutDesc.Font = Enum.Font.Code
+aboutDesc.Parent = aboutPage
+
+-- Bottom message with hacker style
+local bottomMessage = Instance.new("TextLabel")
+bottomMessage.Name = "BottomMessage"
+bottomMessage.Size = UDim2.new(1, -20, 0, 60)
+bottomMessage.Position = UDim2.new(0, 10, 1, -70)
+bottomMessage.BackgroundTransparency = 0.8
+bottomMessage.BackgroundColor3 = Color3.fromRGB(0, 20, 0)
+bottomMessage.Text = "> More updates incoming... enjoy :DD"
+bottomMessage.TextColor3 = Color3.fromRGB(0, 255, 100)
+bottomMessage.TextScaled = true
+bottomMessage.Font = Enum.Font.Code
+bottomMessage.RichText = true
+bottomMessage.Parent = aboutPage
+
+local bottomCorner = Instance.new("UICorner")
+bottomCorner.CornerRadius = UDim.new(0, 8)
+bottomCorner.Parent = bottomMessage
+
+-- Add terminal line effect
+local terminalLine = Instance.new("Frame")
+terminalLine.Size = UDim2.new(1, -20, 0, 1)
+terminalLine.Position = UDim2.new(0, 10, 0, 30)
+terminalLine.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+terminalLine.BackgroundTransparency = 0.7
+terminalLine.BorderSizePixel = 0
+terminalLine.Parent = aboutPage
+
+-- Create page buttons with hacker style
+local function createPageButton(name)
+    local button = Instance.new("TextButton")
+    button.Name = name .. "Button"
+    button.Size = UDim2.new(0, 70, 0, 30) -- Slightly smaller to fit 4 buttons
+    button.BackgroundColor3 = Color3.fromRGB(20, 30, 20)
+    button.Text = "> " .. name
+    button.TextColor3 = Color3.fromRGB(0, 255, 0)
+    button.TextScaled = true
+    button.Font = Enum.Font.Code
+    button.Parent = pageButtons
+    
+    local buttonCorner = Instance.new("UICorner")
+    buttonCorner.CornerRadius = UDim.new(0, 6)
+    buttonCorner.Parent = button
+    
+    button.MouseButton1Click:Connect(function()
+        -- Hide all pages
+        for _, page in pairs(pages) do
+            page.Visible = false
+        end
+        -- Show selected page
+        pages[name].Visible = true
+        
+        -- Update button colors
+        for _, btn in pairs(pageButtons:GetChildren()) do
+            if btn:IsA("TextButton") then
+                btn.BackgroundColor3 = Color3.fromRGB(20, 30, 20)
+                btn.TextColor3 = Color3.fromRGB(0, 255, 0)
+            end
+        end
+        button.BackgroundColor3 = Color3.fromRGB(0, 50, 0)
+        button.TextColor3 = Color3.fromRGB(100, 255, 100)
+    end)
+    
+    return button
+end
+
+-- Create all page buttons
+for i, name in ipairs(pageNames) do
+    local btn = createPageButton(name)
+    if i == 1 then
+        task.wait()
+        btn.BackgroundColor3 = Color3.fromRGB(0, 50, 0)
+        btn.TextColor3 = Color3.fromRGB(100, 255, 100)
+        pages[name].Visible = true
+    end
+end
+
+-- Add drag functionality
+local dragging = false
+local dragInput
+local dragStart
+local startPos
+
+local function updateDrag(input)
+    local delta = input.Position - dragStart
+    mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+topBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+topBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        updateDrag(input)
+    end
+end)
+
+-- Make GUI visible
+screenGui.Enabled = true
+
+-- Cleanup when GUI is destroyed
+screenGui.Destroying:Connect(function()
+    if autoTrainConnection then
+        autoTrainConnection:Disconnect()
+    end
+    if autoCompetitionConnection then
+        autoCompetitionConnection:Disconnect()
+    end
+end)
