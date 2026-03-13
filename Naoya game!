@@ -1,0 +1,216 @@
+-- LocalScript (place in StarterPlayer → StarterPlayerScripts or StarterGui)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- ───────────────────────────────────────────────
+--   Splash / Intro Text ("By Commander X")
+-- ───────────────────────────────────────────────
+local splashGui = Instance.new("ScreenGui")
+splashGui.Name = "SplashIntro"
+splashGui.IgnoreGuiInset = true
+splashGui.ResetOnSpawn = false
+splashGui.Parent = playerGui
+
+local splashText = Instance.new("TextLabel")
+splashText.Size = UDim2.new(1, 0, 1, 0)
+splashText.BackgroundTransparency = 1
+splashText.Text = "By Commander X"
+splashText.TextColor3 = Color3.fromRGB(180, 180, 255)
+splashText.TextSize = 80
+splashText.Font = Enum.Font.GothamBlack
+splashText.TextTransparency = 1
+splashText.TextStrokeTransparency = 1
+splashText.TextStrokeColor3 = Color3.new(0,0,0)
+splashText.Parent = splashGui
+
+-- Fade in
+TweenService:Create(splashText, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+    TextTransparency = 0.1,
+    TextStrokeTransparency = 0.4
+}):Play()
+
+task.wait(2.5)
+
+-- Fade out
+local fadeOut = TweenService:Create(splashText, TweenInfo.new(1.4, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {
+    TextTransparency = 1,
+    TextStrokeTransparency = 1
+})
+fadeOut:Play()
+fadeOut.Completed:Connect(function()
+    splashGui:Destroy()
+end)
+
+-- Wait until splash is gone before showing main GUI
+task.wait(1.6)
+
+-- ───────────────────────────────────────────────
+--   Main Exploit GUI
+-- ───────────────────────────────────────────────
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MoneyExploitGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 240, 0, 160)
+mainFrame.Position = UDim2.new(0.5, -120, 0.5, -80)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+mainFrame.BackgroundTransparency = 0.3
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Parent = screenGui
+
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 14)
+uiCorner.Parent = mainFrame
+
+-- Close Button (X)
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 32, 0, 32)
+closeBtn.Position = UDim2.new(1, -38, 0, 6)
+closeBtn.BackgroundColor3 = Color3.fromRGB(220, 40, 40)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.new(1,1,1)
+closeBtn.TextSize = 20
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.BorderSizePixel = 0
+closeBtn.Parent = mainFrame
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 8)
+closeCorner.Parent = closeBtn
+
+-- Title Bar (draggable)
+local titleBar = Instance.new("TextLabel")
+titleBar.Size = UDim2.new(1, 0, 0, 40)
+titleBar.BackgroundTransparency = 1
+titleBar.Text = "Money Tool"
+titleBar.TextColor3 = Color3.fromRGB(220, 220, 255)
+titleBar.TextSize = 22
+titleBar.Font = Enum.Font.GothamBold
+titleBar.Parent = mainFrame
+
+-- Dragging logic
+local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
+
+local function updateInput(input)
+    local delta = input.Position - dragStart
+    mainFrame.Position = UDim2.new(
+        startPos.X.Scale,
+        startPos.X.Offset + delta.X,
+        startPos.Y.Scale,
+        startPos.Y.Offset + delta.Y
+    )
+end
+
+titleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+titleBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        updateInput(input)
+    end
+end)
+
+-- Close functionality
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+closeBtn.MouseEnter:Connect(function()
+    TweenService:Create(closeBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(255, 60, 60)}):Play()
+end)
+
+closeBtn.MouseLeave:Connect(function()
+    TweenService:Create(closeBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(220, 40, 40)}):Play()
+end)
+
+-- Infinite Money Button
+local infButton = Instance.new("TextButton")
+infButton.Size = UDim2.new(0.85, 0, 0, 50)
+infButton.Position = UDim2.new(0.075, 0, 0.38, 0)
+infButton.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+infButton.Text = "Infinite Money"
+infButton.TextColor3 = Color3.new(1,1,1)
+infButton.TextSize = 22
+infButton.Font = Enum.Font.GothamSemibold
+infButton.Parent = mainFrame
+
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(0, 10)
+btnCorner.Parent = infButton
+
+-- Button hover/click effects
+infButton.MouseEnter:Connect(function()
+    infButton:TweenSize(UDim2.new(0.87, 0, 0, 54), "Out", "Quad", 0.18, true)
+    infButton.BackgroundColor3 = Color3.fromRGB(0, 200, 120)
+end)
+
+infButton.MouseLeave:Connect(function()
+    infButton:TweenSize(UDim2.new(0.85, 0, 0, 50), "Out", "Quad", 0.18, true)
+    infButton.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+end)
+
+-- Money remote logic
+local remote = game:GetService("ReplicatedStorage"):WaitForChild("AddDieMoney", 10)
+
+local running = false
+
+infButton.MouseButton1Click:Connect(function()
+    if not remote then
+        infButton.Text = "Remote missing"
+        infButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        task.wait(1.8)
+        infButton.Text = "Infinite Money"
+        infButton.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+        return
+    end
+    
+    running = not running
+    
+    if running then
+        infButton.Text = "Running... (click to stop)"
+        infButton.BackgroundColor3 = Color3.fromRGB(220, 140, 0)
+        
+        spawn(function()
+            while running and remote.Parent do
+                task.spawn(function()
+                    pcall(function()
+                        remote:FireServer(4999)
+                    end)
+                end)
+                task.wait()   -- ≈60/sec — change to task.wait(0.06) if too aggressive
+            end
+            if infButton.Parent then
+                infButton.Text = "Infinite Money"
+                infButton.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+            end
+        end)
+    else
+        infButton.Text = "Infinite Money"
+        infButton.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+    end
+end)
